@@ -101,7 +101,7 @@ end
 function cropsMenu()
     local c = gg.choice({
         "🍅 Tomaten",
-        "🐘 Elefant",
+        "🐘 بوط",
         "🌱 falfel",
         "🌿 barsim",
         "⬅️ Zurück"
