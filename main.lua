@@ -1,3 +1,5 @@
+gg.alert("NEUE VERSION " .. os.time())
+
 -- =========================================
 -- Script: FamilyFarm / Daily Quest
 -- Online-Version
