@@ -24,6 +24,29 @@ end
 -- ==============================
 -- DAILY QUEST LOGIK
 -- ==============================
+
+function elefantHack()
+    gg.clearResults()
+    gg.toast("🐘 Elefant: Suche startet")
+
+    gg.searchNumber("200422", gg.TYPE_DWORD)
+    local res = gg.getResults(9999)
+
+    if #res == 0 then
+        gg.alert("❌ Elefant: Wert nicht gefunden")
+        return
+    end
+
+    for _, v in ipairs(res) do
+        v.value = 7046
+        v.flags = gg.TYPE_DWORD
+    end
+
+    gg.setValues(res)
+    gg.alert("✅ Elefant geändert auf 7046\nTreffer: " .. #res)
+end
+
+
 local numbers = {1, 2000, 30, 6, 20, 12, 10, 3, 2, 5}
 
 function searchDailyQuest()
