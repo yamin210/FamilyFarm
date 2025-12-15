@@ -52,6 +52,28 @@ function elefantHack()
     gg.alert("✅ Elefant geändert auf 7046\nTreffer: " .. #res)
 end
 
+function falfelHack()
+    gg.clearResults()
+    gg.toast("🌱 falfel: Suche startet")
+
+    gg.searchNumber("200422", gg.TYPE_DWORD)
+    local res = gg.getResults(9999)
+
+    if #res == 0 then
+        gg.alert("❌ falfel: Wert nicht gefunden")
+        return
+    end
+
+    for _, v in ipairs(res) do
+        v.value = 5107
+        v.flags = gg.TYPE_DWORD
+    end
+
+    gg.setValues(res)
+    gg.alert("✅ falfel geändert auf 5107\nTreffer: " .. #res)
+end
+
+
 -- ==============================
 -- DAILY QUEST
 -- ==============================
@@ -114,7 +136,7 @@ function cropsMenu()
     elseif c == 2 then
         elefantHack()
     elseif c == 3 then
-        gg.toast("🌱 falfel (noch nicht aktiv)")
+    falfelHack()
     elseif c == 4 then
         gg.toast("🌿 barsim (noch nicht aktiv)")
     end
