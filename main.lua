@@ -1,135 +1,113 @@
---=========================================================
--- Script: daily_quest
---=========================================================
+-- =========================================
+-- Script: FamilyFarm / Daily Quest
+-- Online-Version
+-- =========================================
 
--- =========================
--- ONLINE CHECK (GitHub)
--- =========================
+collectgarbage("collect")
+gg.clearResults()
+
+gg.toast("FamilyFarm gestartet")
+
+-- ==============================
+-- ONLINE ON / OFF CHECK
+-- ==============================
 function isOnlineEnabled()
-    local r = gg.makeRequest("https://raw.githubusercontent.com/yamin210/FamilyFarm/refs/heads/main/daily.txt")
+    local r = gg.makeRequest(
+        "https://raw.githubusercontent.com/yamin210/FamilyFarm/main/daily.txt"
+    )
     if r and r.content then
         return r.content:find("ON") ~= nil
     end
     return false
 end
 
-gg.toast("ابوو الليث")
-
--- Zahlen für Daily Quest
+-- ==============================
+-- DAILY QUEST LOGIK
+-- ==============================
 local numbers = {1, 2000, 30, 6, 20, 12, 10, 3, 2, 5}
 
---=========================================================
--- DAILY QUEST
---=========================================================
 function searchDailyQuest()
-
     if not isOnlineEnabled() then
         gg.alert("❌ Script ist online deaktiviert")
         return
     end
 
     gg.searchNumber("27000~27099;1~2000", gg.TYPE_DOUBLE)
-    gg.toast("Erste Suche fertig...")
+    gg.toast("Erste Suche fertig")
 
     gg.refineNumber("1~2000", gg.TYPE_DOUBLE)
-    gg.toast("Refine 1~2000 fertig...")
+    gg.toast("Refine fertig")
 
     local base = gg.getResults(9999)
     if #base == 0 then
-        gg.alert("Keine Werte nach refine gefunden.")
+        gg.alert("Keine Werte gefunden")
         return
     end
 
-    local totalChanged = 0
+    local total = 0
 
     for _, num in ipairs(numbers) do
         gg.loadResults(base)
         gg.refineNumber(tostring(num), gg.TYPE_DOUBLE)
+        local res = gg.getResults(9999)
 
-        local results = gg.getResults(9999)
-        if #results > 0 then
-            for _, v in ipairs(results) do
-                v.value = 0
-                v.flags = gg.TYPE_DOUBLE
-            end
-            gg.setValues(results)
-            totalChanged = totalChanged + #results
+        for _, v in ipairs(res) do
+            v.value = 0
+            v.flags = gg.TYPE_DOUBLE
         end
+
+        gg.setValues(res)
+        total = total + #res
     end
 
-    gg.alert("✅ Gesamt geändert: " .. totalChanged)
+    gg.alert("Fertig ✅\nGeändert: " .. total)
 end
 
---=========================================================
--- UNTERMENÜ: مزروعات متنوعة
---=========================================================
-function variedCropsMenu()
-
-    if not isOnlineEnabled() then
-        gg.alert("❌ Script ist online deaktiviert")
-        return
-    end
-
-    local menu = gg.choice({
+-- ==============================
+-- 🌾 مزروعات متنوعة
+-- ==============================
+function cropsMenu()
+    local c = gg.choice({
         "🍅 Tomaten",
         "🐘 Elefant",
-        "🌿 falfel",
-        "🌾 barsim",
+        "🌱 falfel",
+        "🌿 barsim",
         "⬅️ Zurück"
     }, nil, "مزروعات متنوعة")
 
-    if menu == 1 then
-        cropTomaten()
-    elseif menu == 2 then
-        cropElefant()
-    elseif menu == 3 then
-        cropFalfel()
-    elseif menu == 4 then
-        cropBarsim()
+    if c == 1 then
+        gg.toast("Tomaten gewählt")
+    elseif c == 2 then
+        gg.toast("Elefant gewählt")
+    elseif c == 3 then
+        gg.toast("falfel gewählt")
+    elseif c == 4 then
+        gg.toast("barsim gewählt")
     end
 end
 
---=========================================================
--- FUNKTIONEN DER 4 BUTTONS
---=========================================================
-function cropTomaten()
-    gg.alert("🍅 Tomaten\n\nFunktion bereit")
-end
-
-function cropElefant()
-    gg.alert("🐘 Elefant\n\nFunktion bereit")
-end
-
-function cropFalfel()
-    gg.alert("🌿 falfel\n\nFunktion bereit")
-end
-
-function cropBarsim()
-    gg.alert("🌾 barsim\n\nFunktion bereit")
-end
-
---=========================================================
+-- ==============================
 -- HAUPTMENÜ
---=========================================================
+-- ==============================
 function mainMenu()
-    local menu = gg.choice({
-        "🔍 Daily Quest starten",
-        "🌱 مزروعات متنوعة",
+    local m = gg.choice({
+        "🔍 Daily Quest",
+        "🌾 مزروعات متنوعة",
         "❌ Beenden"
-    }, nil, "daily_quest")
+    }, nil, "FamilyFarm")
 
-    if menu == 1 then
+    if m == 1 then
         searchDailyQuest()
-    elseif menu == 2 then
-        variedCropsMenu()
-    elseif menu == nil or menu == 3 then
+    elseif m == 2 then
+        cropsMenu()
+    elseif m == 3 then
         os.exit()
     end
 end
 
---=========================================================
--- LOOP
---=========================================================
+-- ==============================
+-- LOOP (GG Button)
+-- ==============================
 while true do
     if gg.isVisible(true) then
         gg.setVisible(false)
