@@ -1,4 +1,4 @@
-gg.alert("NEUE VERSION " .. os.time())
+gg.alert("🆕 NEUE VERSION\n" .. os.time())
 
 -- =========================================
 -- Script: FamilyFarm / Daily Quest
@@ -24,10 +24,14 @@ function isOnlineEnabled()
 end
 
 -- ==============================
--- DAILY QUEST LOGIK
+-- 🐘 ELEFANT HACK
 -- ==============================
-
 function elefantHack()
+    if not isOnlineEnabled() then
+        gg.alert("❌ Script ist online deaktiviert")
+        return
+    end
+
     gg.clearResults()
     gg.toast("🐘 Elefant: Suche startet")
 
@@ -48,7 +52,9 @@ function elefantHack()
     gg.alert("✅ Elefant geändert auf 7046\nTreffer: " .. #res)
 end
 
-
+-- ==============================
+-- DAILY QUEST
+-- ==============================
 local numbers = {1, 2000, 30, 6, 20, 12, 10, 3, 2, 5}
 
 function searchDailyQuest()
@@ -57,6 +63,7 @@ function searchDailyQuest()
         return
     end
 
+    gg.clearResults()
     gg.searchNumber("27000~27099;1~2000", gg.TYPE_DOUBLE)
     gg.toast("Erste Suche fertig")
 
@@ -65,7 +72,7 @@ function searchDailyQuest()
 
     local base = gg.getResults(9999)
     if #base == 0 then
-        gg.alert("Keine Werte gefunden")
+        gg.alert("❌ Keine Werte gefunden")
         return
     end
 
@@ -85,7 +92,7 @@ function searchDailyQuest()
         total = total + #res
     end
 
-    gg.alert("Fertig ✅\nGeändert: " .. total)
+    gg.alert("✅ Daily Quest fertig\nGeändert: " .. total)
 end
 
 -- ==============================
@@ -100,14 +107,16 @@ function cropsMenu()
         "⬅️ Zurück"
     }, nil, "مزروعات متنوعة")
 
-    if c == 1 then
-        gg.toast("Tomaten gewählt")
+    if c == nil or c == 5 then
+        return
+    elseif c == 1 then
+        gg.toast("🍅 Tomaten (noch nicht aktiv)")
     elseif c == 2 then
-        gg.toast("Elefant gewählt")
+        elefantHack()
     elseif c == 3 then
-        gg.toast("falfel gewählt")
+        gg.toast("🌱 falfel (noch nicht aktiv)")
     elseif c == 4 then
-        gg.toast("barsim gewählt")
+        gg.toast("🌿 barsim (noch nicht aktiv)")
     end
 end
 
@@ -120,6 +129,8 @@ function mainMenu()
         "🌾 مزروعات متنوعة",
         "❌ Beenden"
     }, nil, "FamilyFarm")
+
+    if m == nil then return end
 
     if m == 1 then
         searchDailyQuest()
