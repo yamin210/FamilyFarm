@@ -7,7 +7,7 @@ gg.alert("🆕 NEUE VERSION\n" .. os.time())
 
 collectgarbage("collect")
 gg.clearResults()
-gg.toast("FamilyFarm gestartet")
+gg.toast("ابوو الليث")
 
 -- ==================================================
 -- ONLINE ON / OFF CHECK
