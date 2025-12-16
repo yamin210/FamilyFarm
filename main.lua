@@ -94,6 +94,28 @@ function tomatenHack()
     gg.alert("✅ Tomaten geändert auf 7048\nTreffer: " .. #res)
 end
 
+function barsimHack()
+    gg.clearResults()
+    gg.toast("🌿 barsim: Suche startet")
+
+    gg.searchNumber("200422", gg.TYPE_DWORD)
+    local res = gg.getResults(9999)
+
+    if #res == 0 then
+        gg.alert("❌ barsim: Wert nicht gefunden")
+        return
+    end
+
+    for _, v in ipairs(res) do
+        v.value = 5101
+        v.flags = gg.TYPE_DWORD
+    end
+
+    gg.setValues(res)
+    gg.alert("✅ barsim geändert auf 5101\nTreffer: " .. #res)
+end
+
+
 
 
 -- ==============================
@@ -159,8 +181,8 @@ function cropsMenu()
         elefantHack()
     elseif c == 3 then
     falfelHack()
-    elseif c == 4 then
-        gg.toast("🌿 barsim (noch nicht aktiv)")
+   elseif c == 4 then
+    barsimHack()
     end
 end
 
