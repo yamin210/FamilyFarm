@@ -73,6 +73,28 @@ function falfelHack()
     gg.alert("✅ falfel geändert auf 5107\nTreffer: " .. #res)
 end
 
+function tomatenHack()
+    gg.clearResults()
+    gg.toast("🍅 Tomaten: Suche startet")
+
+    gg.searchNumber("7024", gg.TYPE_DWORD)
+    local res = gg.getResults(9999)
+
+    if #res == 0 then
+        gg.alert("❌ Tomaten: Wert nicht gefunden")
+        return
+    end
+
+    for _, v in ipairs(res) do
+        v.value = 7048
+        v.flags = gg.TYPE_DWORD
+    end
+
+    gg.setValues(res)
+    gg.alert("✅ Tomaten geändert auf 7048\nTreffer: " .. #res)
+end
+
+
 
 -- ==============================
 -- DAILY QUEST
@@ -132,7 +154,7 @@ function cropsMenu()
     if c == nil or c == 5 then
         return
     elseif c == 1 then
-        gg.toast("🍅 Tomaten (noch nicht aktiv)")
+    tomatenHack()
     elseif c == 2 then
         elefantHack()
     elseif c == 3 then
