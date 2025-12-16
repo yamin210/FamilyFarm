@@ -1,31 +1,32 @@
 gg.alert("🆕 NEUE VERSION\n" .. os.time())
 
--- =========================================
+-- ==================================================
 -- Script: FamilyFarm / Daily Quest
--- Online-Version
--- =========================================
+-- Version: Online
+-- ==================================================
 
 collectgarbage("collect")
 gg.clearResults()
-
 gg.toast("FamilyFarm gestartet")
 
--- ==============================
+-- ==================================================
 -- ONLINE ON / OFF CHECK
--- ==============================
+-- ==================================================
 function isOnlineEnabled()
     local r = gg.makeRequest(
         "https://raw.githubusercontent.com/yamin210/FamilyFarm/main/daily.txt"
     )
+
     if r and r.content then
         return r.content:find("ON") ~= nil
     end
+
     return false
 end
 
--- ==============================
--- 🐘 ELEFANT HACK
--- ==============================
+-- ==================================================
+-- 🐘 ELEFANT
+-- ==================================================
 function elefantHack()
     if not isOnlineEnabled() then
         gg.alert("❌ Script ist online deaktiviert")
@@ -52,6 +53,9 @@ function elefantHack()
     gg.alert("✅ Elefant geändert auf 7046\nTreffer: " .. #res)
 end
 
+-- ==================================================
+-- 🌱 FALFEL
+-- ==================================================
 function falfelHack()
     gg.clearResults()
     gg.toast("🌱 falfel: Suche startet")
@@ -73,6 +77,9 @@ function falfelHack()
     gg.alert("✅ falfel geändert auf 5107\nTreffer: " .. #res)
 end
 
+-- ==================================================
+-- 🍅 TOMATEN
+-- ==================================================
 function tomatenHack()
     gg.clearResults()
     gg.toast("🍅 Tomaten: Suche startet")
@@ -94,6 +101,9 @@ function tomatenHack()
     gg.alert("✅ Tomaten geändert auf 7048\nTreffer: " .. #res)
 end
 
+-- ==================================================
+-- 🌿 BARSIM
+-- ==================================================
 function barsimHack()
     gg.clearResults()
     gg.toast("🌿 barsim: Suche startet")
@@ -115,12 +125,9 @@ function barsimHack()
     gg.alert("✅ barsim geändert auf 5101\nTreffer: " .. #res)
 end
 
-
-
-
--- ==============================
--- DAILY QUEST
--- ==============================
+-- ==================================================
+-- 🔍 DAILY QUEST
+-- ==================================================
 local numbers = {1, 2000, 30, 6, 20, 12, 10, 3, 2, 5}
 
 function searchDailyQuest()
@@ -161,9 +168,9 @@ function searchDailyQuest()
     gg.alert("✅ Daily Quest fertig\nGeändert: " .. total)
 end
 
--- ==============================
+-- ==================================================
 -- 🌾 مزروعات متنوعة
--- ==============================
+-- ==================================================
 function cropsMenu()
     local c = gg.choice({
         "🍅 Tomaten",
@@ -176,19 +183,19 @@ function cropsMenu()
     if c == nil or c == 5 then
         return
     elseif c == 1 then
-    tomatenHack()
+        tomatenHack()
     elseif c == 2 then
         elefantHack()
     elseif c == 3 then
-    falfelHack()
-   elseif c == 4 then
-    barsimHack()
+        falfelHack()
+    elseif c == 4 then
+        barsimHack()
     end
 end
 
--- ==============================
--- HAUPTMENÜ
--- ==============================
+-- ==================================================
+-- 🏠 HAUPTMENÜ
+-- ==================================================
 function mainMenu()
     local m = gg.choice({
         "🔍 Daily Quest",
@@ -207,9 +214,9 @@ function mainMenu()
     end
 end
 
--- ==============================
--- LOOP (GG Button)
--- ==============================
+-- ==================================================
+-- 🔁 LOOP (GG Button)
+-- ==================================================
 while true do
     if gg.isVisible(true) then
         gg.setVisible(false)
