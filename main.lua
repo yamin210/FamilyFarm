@@ -168,9 +168,9 @@ end
 
 function mainMenu()
     local m = gg.choice({
-        "🔍 يوميات (Daily)",
-        "🌾 مزروعات (Crops)",
-        "🤖 تسريع كلشي",
+        "🔍 اليوميات",
+        "🌾 مزروعات ",
+        "🤖 تسريع كل الالات والحيوانات",
         "❌ Beenden"
     }, nil, "FamilyFarm")
 
