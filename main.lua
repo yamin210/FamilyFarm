@@ -150,6 +150,11 @@ function cropsMenu()
 
     if c == nil or c == 5 then return end
 
+    -- Spezifische Nachricht für Tomaten (Option 1)
+    if c == 1 then
+        gg.alert("حددت على برسيم حجازي؟")
+    end
+
     -- Nachricht für Auswahl 2, 3 und 4
     if c == 2 or c == 3 or c == 4 then
         gg.alert("حددت على الشوفان؟")
