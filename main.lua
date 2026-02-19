@@ -24,45 +24,55 @@ end
 -- 🤖 FUNKTION: تسريع كلشي (Alle Maschinen)
 -- Filtert Werte nur innerhalb der gefundenen Gruppen
 -- ==================================================
+-- ==================================================
+-- 🤖 FUNKTION: تسريع كلشي (Einzel-Refine Logik)
+-- ==================================================
 function alleMaschinenHack()
-    gg.toast("Starte Gruppen-Filter...")
+    gg.toast("⏳ جاري العمل... (Prozess 1)")
 
-    -- --- GRUPPE 1 ---
+    -- --- ERSTE SUCHE ---
     gg.clearResults()
     gg.searchNumber("30;2049;45~900", gg.TYPE_DWORD)
-    local gruppe1 = gg.getResults(9999)
+    local g1 = gg.getResults(9999)
 
-    if #gruppe1 > 0 then
-        local targets1 = {45, 50, 60, 70, 75, 90, 100, 110, 120, 900}
-        for _, v in ipairs(targets1) do
-            gg.loadResults(gruppe1) -- Lädt nur die Gruppen-Ergebnisse
-            gg.refineNumber(tostring(v), gg.TYPE_DWORD)
+    if #g1 > 0 then
+        local t1 = {45, 50, 60, 70, 75, 90, 100, 110, 120, 900}
+        for _, v in ipairs(t1) do
+            gg.loadResults(g1) -- Lädt die Ergebnisse der ersten Gruppensuche
+            gg.refineNumber(tostring(v), gg.TYPE_DWORD) -- Einzel-Refine
             local found = gg.getResults(9999)
             if #found > 0 then
                 for _, item in ipairs(found) do item.value = "0" end
                 gg.setValues(found)
             end
         end
-        gg.toast("Gruppe 1 fertig!")
+        gg.toast("✅ Prozess 1 abgeschlossen")
+    else
+        gg.toast("❌ Gruppe 1 nicht gefunden")
     end
 
-    -- --- GRUPPE 2 ---
+    gg.sleep(200) -- Kurze Pause für die Stabilität
+    gg.toast("⏳ جاري العمل... (Prozess 2)")
+
+    -- --- ZWEITE SUCHE ---
     gg.clearResults()
     gg.searchNumber("10;2049;50~600", gg.TYPE_DWORD)
-    local gruppe2 = gg.getResults(9999)
+    local g2 = gg.getResults(9999)
 
-    if #gruppe2 > 0 then
-        local targets2 = {55, 60, 70, 72, 75, 90, 100, 110, 120, 150, 180, 600}
-        for _, v in ipairs(targets2) do
-            gg.loadResults(gruppe2) -- Lädt nur die Gruppen-Ergebnisse
-            gg.refineNumber(tostring(v), gg.TYPE_DWORD)
+    if #g2 > 0 then
+        local t2 = {55, 60, 70, 72, 75, 90, 100, 110, 120, 150, 180, 600}
+        for _, v in ipairs(t2) do
+            gg.loadResults(g2) -- Lädt die Ergebnisse der zweiten Gruppensuche
+            gg.refineNumber(tostring(v), gg.TYPE_DWORD) -- Einzel-Refine
             local found = gg.getResults(9999)
             if #found > 0 then
                 for _, item in ipairs(found) do item.value = "0" end
                 gg.setValues(found)
             end
         end
-        gg.toast("Gruppe 2 fertig!")
+        gg.toast("✅ Prozess 2 abgeschlossen")
+    else
+        gg.toast("❌ Gruppe 2 nicht gefunden")
     end
     
     gg.alert("✅ تم تسريع كلشي بنجاح")
