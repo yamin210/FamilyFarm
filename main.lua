@@ -56,7 +56,7 @@ function alleMaschinenHack()
     local g2 = gg.getResults(9999)
 
     if #g2 > 0 then
-        local t2 = {55, 60, 70, 72, 75, 90, 100, 110, 120, 150, 180, 600}
+        local t2 = {55, 60, 70, 72, 75, 80, 90, 100, 110, 120, 150, 180, 600}
         for _, v in ipairs(t2) do
             gg.loadResults(g2) -- Lädt die Ergebnisse der zweiten Gruppensuche
             gg.refineNumber(tostring(v), gg.TYPE_DWORD) -- Einzel-Refine
