@@ -24,7 +24,7 @@ end
 -- 🤖 FUNKTION: تسريع كلشي (Einzel-Refine Logik)
 -- ==================================================
 function alleMaschinenHack()
-    gg.toast("⏳ جاري العمل... (Prozess 1)")
+    gg.toast("يلا بسم الله نبلش")
 
     -- --- ERSTE SUCHE ---
     gg.clearResults()
@@ -42,7 +42,7 @@ function alleMaschinenHack()
                 gg.setValues(found)
             end
         end
-        gg.toast("✅ Prozess 1 abgeschlossen")
+        gg.toast("يلا باقي شوي")
     else
         gg.toast("❌ Gruppe 1 nicht gefunden")
     end
