@@ -21,10 +21,6 @@ function isOnlineEnabled()
 end
 
 -- ==================================================
--- 🤖 FUNKTION: تسريع كلشي (Alle Maschinen)
--- Filtert Werte nur innerhalb der gefundenen Gruppen
--- ==================================================
--- ==================================================
 -- 🤖 FUNKTION: تسريع كلشي (Einzel-Refine Logik)
 -- ==================================================
 function alleMaschinenHack()
