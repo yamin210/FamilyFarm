@@ -222,8 +222,8 @@ function mainMenu()
         "🔍 اليوميات",
         "🌾 مزروعات ",
         "🤖 تسريع كل الالات والحيوانات",
-        "🆙 رفع المستوى (Level Up)",
-        "❌ Beenden"
+        "🆙 رفع المستوى",
+        "❌ انهاء"
     }, nil, "FamilyFarm")
 
     if m == 1 then searchDailyQuest()
