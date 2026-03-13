@@ -1,6 +1,5 @@
 -- ==================================================
--- Script: FamilyFarm / Daily Quest & Speed
--- Version: Optimized Professional Version
+-- Script: ابوو الليث
 -- Developer: ابوو الليث
 -- ==================================================
 
@@ -9,11 +8,7 @@ collectgarbage("collect")
 gg.clearResults()
 
 local SCRIPT_NAME = "ابوو الليث"
-local DEV_NAME = "ابوو الليث"
-local DATE_NOW = os.date("%Y-%m-%d %H:%M:%S")
 
-gg.toast(DEV_NAME)
-gg.alert("🆕 " .. SCRIPT_NAME .. "\nالإصدار: محسن\nالتاريخ: " .. DATE_NOW)
 
 -- ==================================================
 -- [2] فحص الاتصال (ONLINE CHECK)
@@ -204,7 +199,7 @@ function mainMenu()
         "🤖 تسريع كل الآلات والحيوانات",
         "🆙 رفع المستوى",
         "❌ خروج"
-    }, nil, "🌟 قائمة " .. SCRIPT_NAME)
+    }, nil, "🌟 سكربت " .. SCRIPT_NAME)
 
     if m == 1 then searchDailyQuest()
     elseif m == 2 then cropsMenu()
