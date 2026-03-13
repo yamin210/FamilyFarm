@@ -14,7 +14,7 @@ gg.alert("🆕 NEUE VERSION\n" .. os.date("%Y-%m-%d %H:%M:%S"))
 function isOnlineEnabled()
     local r = gg.makeRequest("https://raw.githubusercontent.com/yamin210/FamilyFarm/main/daily.txt")
     if r and r.content then
-        return r.content:find("OFF") ~= nil
+        return r.content:find("ON") ~= nil
     end
     -- Falls der Link nicht erreichbar ist, standardmäßig false (Sicherheit)
     return false
@@ -222,7 +222,7 @@ function mainMenu()
         "🔍 اليوميات",
         "🌾 مزروعات ",
         "🤖 تسريع كل الالات والحيوانات",
-        "🆙 رفع المستوى",
+        " رفع المستوى",
         "❌ انهاء"
     }, nil, "FamilyFarm")
 
