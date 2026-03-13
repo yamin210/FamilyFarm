@@ -8,7 +8,7 @@
 collectgarbage("collect")
 gg.clearResults()
 
-local SCRIPT_NAME = "مزرعة العائلة"
+local SCRIPT_NAME = "ابوو الليث"
 local DEV_NAME = "ابوو الليث"
 local DATE_NOW = os.date("%Y-%m-%d %H:%M:%S")
 
