@@ -4,19 +4,19 @@
 -- Developer: ابوو الليث
 -- ==================================================
 
--- [1] INITIALISIERUNG & KONFIGURATION
+-- [1] الإعدادات العامة
 collectgarbage("collect")
 gg.clearResults()
 
-local SCRIPT_NAME = "FamilyFarm"
+local SCRIPT_NAME = "مزرعة العائلة"
 local DEV_NAME = "ابوو الليث"
 local DATE_NOW = os.date("%Y-%m-%d %H:%M:%S")
 
 gg.toast(DEV_NAME)
-gg.alert("🆕 " .. SCRIPT_NAME .. "\nVersion: Optimized\nDatum: " .. DATE_NOW)
+gg.alert("🆕 " .. SCRIPT_NAME .. "\nالإصدار: محسن\nالتاريخ: " .. DATE_NOW)
 
 -- ==================================================
--- [2] HILFSFUNKTIONEN (UTILITIES)
+-- [2] فحص الاتصال (ONLINE CHECK)
 -- ==================================================
 
 function isOnlineEnabled()
@@ -28,14 +28,14 @@ function isOnlineEnabled()
 end
 
 -- ==================================================
--- [3] HACK LOGIK: LEVEL & SPEED
+-- [3] وظائف الاختراق: المستوى والسرعة
 -- ==================================================
 
--- 🆙 FUNKTION: رفع المستوى (Text-Suche :size_y & :size_x)
+-- 🆙 وظيفة: رفع المستوى (تصفير size_y و size_x)
 function levelUpHack()
-    gg.toast("⏳ جاري البحث عن نص...")
+    gg.toast("⏳ جاري البحث عن القيم...")
 
-    -- Suche 1: :size_y
+    -- البحث الأول: :size_y
     gg.clearResults()
     gg.searchNumber(":size_y", gg.TYPE_BYTE)
     local res1 = gg.getResults(9999)
@@ -49,7 +49,7 @@ function levelUpHack()
 
     gg.sleep(600) 
 
-    -- Suche 2: :size_x
+    -- البحث الثاني: :size_x
     gg.clearResults()
     gg.searchNumber(":size_x", gg.TYPE_BYTE)
     local res2 = gg.getResults(9999)
@@ -58,17 +58,17 @@ function levelUpHack()
         gg.setValues(res2)
         gg.toast("✅ تم تصفير :size_x")
     else
-        gg.toast("⚠️ لم يتم العثور auf :size_x")
+        gg.toast("⚠️ لم يتم العثور على :size_x")
     end
 
-    gg.alert("🚀 تم الانتهاء من تعديل بنجاح")
+    gg.alert("🚀 تم التعديل بنجاح")
 end
 
--- 🤖 FUNKTION: تسريع كلشي
+-- 🤖 وظيفة: تسريع كل شيء
 function alleMaschinenHack()
-    gg.toast("يلا بسم الله نبلش")
+    gg.toast("بسم الله نبلش")
 
-    -- --- GRUPPE 1 ---
+    -- المجموعه الأولى
     gg.clearResults()
     gg.searchNumber("30;2049;45~900", gg.TYPE_DWORD)
     local g1 = gg.getResults(9999)
@@ -83,12 +83,12 @@ function alleMaschinenHack()
                 gg.setValues(found)
             end
         end
-        gg.toast("خلصنا 1")
+        gg.toast("تم الانتهاء من الجزء 1")
     end
 
     gg.sleep(200)
 
-    -- --- GRUPPE 2 ---
+    -- المجموعه الثانية
     gg.clearResults()
     gg.searchNumber("10;2049;50~600", gg.TYPE_DWORD)
     local g2 = gg.getResults(9999)
@@ -103,23 +103,23 @@ function alleMaschinenHack()
                 gg.setValues(found)
             end
         end
-        gg.toast("خلصناااا 2")
+        gg.toast("تم الانتهاء من الجزء 2")
     end
-    gg.alert("✅ تم تسريع كلشي بنجاح")
+    gg.alert("✅ تم تسريع كل شيء بنجاح")
 end
 
 -- ==================================================
--- [4] HACK LOGIK: PFLANZEN & DAILY
+-- [4] وظائف المزروعات والمهام اليومية
 -- ==================================================
 
 function elefantHack()
-    if not isOnlineEnabled() then gg.alert("❌ Script ist offline") return end
+    if not isOnlineEnabled() then gg.alert("❌ السكربت متوقف حالياً") return end
     gg.clearResults()
     gg.searchNumber("200422", gg.TYPE_DWORD)
     local res = gg.getResults(9999)
     for _, v in ipairs(res) do v.value = 7046 v.flags = gg.TYPE_DWORD end
     gg.setValues(res)
-    gg.alert("✅ Elefant -> 7046")
+    gg.alert("✅ تم تحويل الشوفان إلى بوط")
 end
 
 function falfelHack()
@@ -128,7 +128,7 @@ function falfelHack()
     local res = gg.getResults(9999)
     for _, v in ipairs(res) do v.value = 5107 v.flags = gg.TYPE_DWORD end
     gg.setValues(res)
-    gg.alert("✅ Falfel -> 5107")
+    gg.alert("✅ تم تحويل الشوفان إلى فلفل هاينان")
 end
 
 function tomatenHack()
@@ -137,7 +137,7 @@ function tomatenHack()
     local res = gg.getResults(9999)
     for _, v in ipairs(res) do v.value = 7048 v.flags = gg.TYPE_DWORD end
     gg.setValues(res)
-    gg.alert("✅ Tomaten -> 7048")
+    gg.alert("✅ تم تحويل البرسيم الحجازي إلى بندورة")
 end
 
 function barsimHack()
@@ -146,16 +146,16 @@ function barsimHack()
     local res = gg.getResults(9999)
     for _, v in ipairs(res) do v.value = 5101 v.flags = gg.TYPE_DWORD end
     gg.setValues(res)
-    gg.alert("✅ Barsim -> 5101")
+    gg.alert("✅ تم تحويل الشوفان إلى أوراق برسيم")
 end
 
 function searchDailyQuest()
-    if not isOnlineEnabled() then gg.alert("❌ Script ist offline") return end
+    if not isOnlineEnabled() then gg.alert("❌ السكربت متوقف حالياً") return end
     gg.clearResults()
     gg.searchNumber("27000~27099;1~2000", gg.TYPE_DOUBLE)
     gg.refineNumber("1~2000", gg.TYPE_DOUBLE)
     local base = gg.getResults(9999)
-    if #base == 0 then gg.alert("❌ Keine Werte") return end
+    if #base == 0 then gg.alert("❌ لم يتم العثور على قيم") return end
     
     local numbers = {1, 2000, 30, 6, 20, 12, 10, 3, 2, 5}
     local total = 0
@@ -167,11 +167,11 @@ function searchDailyQuest()
         gg.setValues(res)
         total = total + #res
     end
-    gg.alert("✅ Daily Quest Fertig: " .. total)
+    gg.alert("✅ تم إنهاء المهمات اليومية بنجاح\nالقيم المعدلة: " .. total)
 end
 
 -- ==================================================
--- [5] MENÜ STRUKTUR (UI)
+-- [5] القوائم (UI)
 -- ==================================================
 
 function cropsMenu()
@@ -181,12 +181,15 @@ function cropsMenu()
         "🌱 فلفل هاينان", 
         "🌿 اوراق برسيم الاربعة", 
         "⬅️ رجوع"
-    }, nil, "🌱 مزروعات متنوعة")
+    }, nil, "🌱 قائمة المزروعات المتنوعة")
 
     if c == nil or c == 5 then return end
 
-    if c == 1 then gg.alert("حددت على برسيم حجازي؟")
-    else gg.alert("حددت على الشوفان؟") end
+    if c == 1 then 
+        gg.alert("هل حددت على البرسيم الحجازي؟")
+    else 
+        gg.alert("هل حددت على الشوفان؟") 
+    end
 
     if c == 1 then tomatenHack()
     elseif c == 2 then elefantHack()
@@ -196,12 +199,12 @@ end
 
 function mainMenu()
     local m = gg.choice({
-        "🔍 اليوميات (Daily)",
-        "🌾 مزروعات (Crops)",
-        "🤖 تسريع (Speed)",
-        "🆙 رفع المستوى (Level)",
-        "❌ انهاء (Beenden)"
-    }, nil, "🌟 " .. SCRIPT_NAME .. " Manager")
+        "🔍 إنهاء اليوميات",
+        "🌾 قائمة المزروعات",
+        "🤖 تسريع كل الآلات والحيوانات",
+        "🆙 رفع المستوى",
+        "❌ خروج"
+    }, nil, "🌟 قائمة " .. SCRIPT_NAME)
 
     if m == 1 then searchDailyQuest()
     elseif m == 2 then cropsMenu()
@@ -211,7 +214,7 @@ function mainMenu()
 end
 
 -- ==================================================
--- [6] START-SCHLEIFE (LOOP)
+-- [6] حلقة التشغيل (LOOP)
 -- ==================================================
 while true do
     if gg.isVisible(true) then
