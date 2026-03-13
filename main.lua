@@ -48,7 +48,7 @@ function alleMaschinenHack()
     end
 
     gg.sleep(200) -- Kurze Pause für die Stabilität
-    gg.toast("يلا هاا رح اخلص")
+    gg.toast(" خلصنا 1")
 
     -- --- ZWEITE SUCHE ---
     gg.clearResults()
@@ -66,7 +66,7 @@ function alleMaschinenHack()
                 gg.setValues(found)
             end
         end
-        gg.toast("خلصناااا")
+        gg.toast("خلصناااا 2")
     else
         gg.toast("❌ Gruppe 2 nicht gefunden")
     end
