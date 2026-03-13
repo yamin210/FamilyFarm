@@ -10,7 +10,7 @@ gg.clearResults()
 local SCRIPT_NAME = "ابوو الليث"
 
 gg.toast(SCRIPT_NAME)
-gg.alert("أهلاً بك في سكربت " .. SCRIPT_NAME)
+gg.alert("هلوووووووو")
 
 -- ==================================================
 -- [2] فحص الاتصال (تم التعديل ليعمل دائماً)
