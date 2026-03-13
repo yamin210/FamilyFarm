@@ -9,30 +9,28 @@ gg.clearResults()
 
 local SCRIPT_NAME = "ابوو الليث"
 
+gg.toast(SCRIPT_NAME)
+gg.alert("أهلاً بك في سكربت " .. SCRIPT_NAME)
 
 -- ==================================================
--- [2] فحص الاتصال (ONLINE CHECK)
+-- [2] فحص الاتصال (تم التعديل ليعمل دائماً)
 -- ==================================================
-
 function isOnlineEnabled()
-    local r = gg.makeRequest("https://raw.githubusercontent.com/yamin210/FamilyFarm/main/daily.txt")
-    if r and r.content then
-        return r.content:find("ON") ~= nil
-    end
-    return false
+    return true 
 end
 
 -- ==================================================
--- [3] وظائف الاختراق: المستوى والسرعة
+-- [3] وظيفة: رفع المستوى
 -- ==================================================
-
--- 🆙 وظيفة: رفع المستوى (تصفير size_y و size_x)
 function levelUpHack()
+    -- الرسالة التي طلبتها تظهر هنا فوراً
+    gg.alert("لازم تظغط مرتين حتى اتفعل")
+
     gg.toast("⏳ جاري البحث عن القيم...")
 
     -- البحث الأول: :size_y
     gg.clearResults()
-    gg.searchNumber(":size_y", gg.TYPE_BYTE)
+    gg.searchNumber("':size_y'", gg.TYPE_BYTE)
     local res1 = gg.getResults(9999)
     if #res1 > 0 then
         for _, v in ipairs(res1) do v.value = "0" end
@@ -46,7 +44,7 @@ function levelUpHack()
 
     -- البحث الثاني: :size_x
     gg.clearResults()
-    gg.searchNumber(":size_x", gg.TYPE_BYTE)
+    gg.searchNumber("':size_x'", gg.TYPE_BYTE)
     local res2 = gg.getResults(9999)
     if #res2 > 0 then
         for _, v in ipairs(res2) do v.value = "0" end
@@ -59,11 +57,12 @@ function levelUpHack()
     gg.alert("🚀 تم التعديل بنجاح")
 end
 
--- 🤖 وظيفة: تسريع كل شيء
+-- ==================================================
+-- [4] وظيفة: تسريع كل شيء
+-- ==================================================
 function alleMaschinenHack()
     gg.toast("بسم الله نبلش")
 
-    -- المجموعه الأولى
     gg.clearResults()
     gg.searchNumber("30;2049;45~900", gg.TYPE_DWORD)
     local g1 = gg.getResults(9999)
@@ -78,12 +77,10 @@ function alleMaschinenHack()
                 gg.setValues(found)
             end
         end
-        gg.toast("تم الانتهاء من الجزء 1")
     end
 
     gg.sleep(200)
 
-    -- المجموعه الثانية
     gg.clearResults()
     gg.searchNumber("10;2049;50~600", gg.TYPE_DWORD)
     local g2 = gg.getResults(9999)
@@ -98,23 +95,20 @@ function alleMaschinenHack()
                 gg.setValues(found)
             end
         end
-        gg.toast("تم الانتهاء من الجزء 2")
     end
     gg.alert("✅ تم تسريع كل شيء بنجاح")
 end
 
 -- ==================================================
--- [4] وظائف المزروعات والمهام اليومية
+-- [5] وظائف المزروعات واليوميات
 -- ==================================================
-
 function elefantHack()
-    if not isOnlineEnabled() then gg.alert("❌ السكربت متوقف حالياً") return end
     gg.clearResults()
     gg.searchNumber("200422", gg.TYPE_DWORD)
     local res = gg.getResults(9999)
     for _, v in ipairs(res) do v.value = 7046 v.flags = gg.TYPE_DWORD end
     gg.setValues(res)
-    gg.alert("✅ تم تحويل الشوفان إلى بوط")
+    gg.alert("✅ تم التعديل")
 end
 
 function falfelHack()
@@ -123,7 +117,7 @@ function falfelHack()
     local res = gg.getResults(9999)
     for _, v in ipairs(res) do v.value = 5107 v.flags = gg.TYPE_DWORD end
     gg.setValues(res)
-    gg.alert("✅ تم تحويل الشوفان إلى فلفل هاينان")
+    gg.alert("✅ تم التعديل")
 end
 
 function tomatenHack()
@@ -132,7 +126,7 @@ function tomatenHack()
     local res = gg.getResults(9999)
     for _, v in ipairs(res) do v.value = 7048 v.flags = gg.TYPE_DWORD end
     gg.setValues(res)
-    gg.alert("✅ تم تحويل البرسيم الحجازي إلى بندورة")
+    gg.alert("✅ تم التعديل")
 end
 
 function barsimHack()
@@ -141,51 +135,31 @@ function barsimHack()
     local res = gg.getResults(9999)
     for _, v in ipairs(res) do v.value = 5101 v.flags = gg.TYPE_DWORD end
     gg.setValues(res)
-    gg.alert("✅ تم تحويل الشوفان إلى أوراق برسيم")
+    gg.alert("✅ تم التعديل")
 end
 
 function searchDailyQuest()
-    if not isOnlineEnabled() then gg.alert("❌ السكربت متوقف حالياً") return end
     gg.clearResults()
     gg.searchNumber("27000~27099;1~2000", gg.TYPE_DOUBLE)
     gg.refineNumber("1~2000", gg.TYPE_DOUBLE)
     local base = gg.getResults(9999)
-    if #base == 0 then gg.alert("❌ لم يتم العثور على قيم") return end
-    
     local numbers = {1, 2000, 30, 6, 20, 12, 10, 3, 2, 5}
-    local total = 0
     for _, num in ipairs(numbers) do
         gg.loadResults(base)
         gg.refineNumber(tostring(num), gg.TYPE_DOUBLE)
         local res = gg.getResults(9999)
         for _, v in ipairs(res) do v.value = 0 v.flags = gg.TYPE_DOUBLE end
         gg.setValues(res)
-        total = total + #res
     end
-    gg.alert("✅ تم إنهاء المهمات اليومية بنجاح\nالقيم المعدلة: " .. total)
+    gg.alert("✅ تم إنهاء المهمات")
 end
 
 -- ==================================================
--- [5] القوائم (UI)
+-- [6] القوائم
 -- ==================================================
-
 function cropsMenu()
-    local c = gg.choice({
-        "🍅 بندورة", 
-        "🐘 بوط", 
-        "🌱 فلفل هاينان", 
-        "🌿 اوراق برسيم الاربعة", 
-        "⬅️ رجوع"
-    }, nil, "🌱 قائمة المزروعات المتنوعة")
-
+    local c = gg.choice({"🍅 بندورة", "🐘 بوط", "🌱 فلفل هاينان", "🌿 اوراق برسيم", "⬅️ رجوع"}, nil, "🌱 المزروعات")
     if c == nil or c == 5 then return end
-
-    if c == 1 then 
-        gg.alert("هل حددت على البرسيم الحجازي؟")
-    else 
-        gg.alert("هل حددت على الشوفان؟") 
-    end
-
     if c == 1 then tomatenHack()
     elseif c == 2 then elefantHack()
     elseif c == 3 then falfelHack()
@@ -196,7 +170,7 @@ function mainMenu()
     local m = gg.choice({
         "🔍 إنهاء اليوميات",
         "🌾 قائمة المزروعات",
-        "🤖 تسريع كل الآلات والحيوانات",
+        "🤖 تسريع كل شيء",
         "🆙 رفع المستوى",
         "❌ خروج"
     }, nil, "🌟 سكربت " .. SCRIPT_NAME)
@@ -209,7 +183,7 @@ function mainMenu()
 end
 
 -- ==================================================
--- [6] حلقة التشغيل (LOOP)
+-- [7] الحلقة التكرارية
 -- ==================================================
 while true do
     if gg.isVisible(true) then
