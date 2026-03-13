@@ -53,32 +53,53 @@ function searchDailyQuest()
     gg.alert("✅ تم إنهاء المهمات")
 end
 
+-- ==================================================
+-- 🆙 وظيفة: رفع المستوى (البحث عن النصوص وتصفيرها)
+-- ==================================================
 function levelUpHack()
+    -- التأكد من أن الزر مسموح به من GitHub
     if not isButtonEnabled("LEVEL") then return end
     
-    gg.toast("⏳ جاري البحث عن القيم...")
-    -- Suche nach :size_y
+    gg.toast("⏳ جاري البدء في تعديل المستويات...")
+
+    -- --- الخطوة الأولى: البحث عن :size_y ---
     gg.clearResults()
+    gg.toast("🔍 البحث عن :size_y")
+    -- نستخدم البحث عن نص (Byte)
     gg.searchNumber("':size_y'", gg.TYPE_BYTE)
+    
     local res1 = gg.getResults(9999)
     if #res1 > 0 then
-        for _, v in ipairs(res1) do v.value = "0" end
+        for _, v in ipairs(res1) do
+            v.value = "0"
+        end
         gg.setValues(res1)
-        gg.toast("✅ تم تصفير :size_y")
+        gg.toast("✅ تم بنجاح تصفير :size_y")
+    else
+        gg.toast("⚠️ لم يتم العثور على :size_y")
     end
+
+    -- تأخير بسيط لضمان استقرار اللعبة
+    gg.sleep(500)
+
+    -- --- الخطوة الثانية: بحث جديد عن :size_x ---
+    gg.clearResults() -- مسح النتائج السابقة لبدء بحث جديد تماماً
+    gg.toast("🔍 بحث جديد عن :size_x")
     
-    gg.sleep(600)
-    
-    -- Suche nach :size_x
-    gg.clearResults()
     gg.searchNumber("':size_x'", gg.TYPE_BYTE)
+    
     local res2 = gg.getResults(9999)
     if #res2 > 0 then
-        for _, v in ipairs(res2) do v.value = "0" end
+        for _, v in ipairs(res2) do
+            v.value = "0"
+        end
         gg.setValues(res2)
-        gg.toast("✅ تم تصفير :size_x")
+        gg.toast("✅ تم بنجاح تصفير :size_x")
+    else
+        gg.toast("⚠️ لم يتم العثور على :size_x")
     end
-    gg.alert("🚀 تم التعديل بنجاح")
+
+    gg.alert("🚀 تم الانتهاء من رفع المستوى بنجاح!")
 end
 
 -- ==================================================
