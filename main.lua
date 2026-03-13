@@ -4,125 +4,143 @@
 -- ==================================================
 
 collectgarbage("collect")
-gg.clearResults()
 
 local SCRIPT_NAME = "ابوو الليث"
+local config_content = ""
 
--- [1] وظيفة قراءة الإعدادات من GitHub
-function getRemoteConfig()
+-- [1] Funktion: Konfiguration einmalig laden (spart Traffic und Zeit)
+function loadConfig()
     local r = gg.makeRequest("https://raw.githubusercontent.com/yamin210/FamilyFarm/main/daily.txt")
     if r and r.content then
-        return r.content
+        config_content = r.content
+        return true
     end
-    return ""
+    gg.toast("⚠️ تعذر الاتصال بالسيرفر - سيتم استخدام الإعدادات الافتراضية")
+    return false
 end
 
--- [2] وظيفة التحقق من زر معين
+-- [2] Funktion: Status prüfen
 function isButtonEnabled(buttonKey)
-    local config = getRemoteConfig()
-    if config:find(buttonKey .. "=OFF") then
-        gg.alert("❌  معطلة حاليا")
+    if config_content:find(buttonKey .. "=OFF") then
+        gg.alert("❌ معطلة  ")
         return false
     end
     return true
 end
 
+-- Start
+loadConfig()
 gg.toast(SCRIPT_NAME)
-gg.alert("هلووووو")
+gg.alert(" هلووووو ")
 
 -- ==================================================
--- [3] الوظائف الأساسية (تعمل الآن من أول ضغطة)
+-- [3] الوظائف الأساسية
 -- ==================================================
 
 function searchDailyQuest()
     if not isButtonEnabled("DAILY") then return end 
     
-    gg.toast("⏳ جاري العمل...")
+    gg.toast("⏳ جاري إنهاء المهمات...")
     gg.clearResults()
+    
+    -- Suche Optimierung: Wir setzen den Speicherbereich auf Anonymous
+    gg.setRanges(gg.REGION_ANONYMOUS)
+    
     gg.searchNumber("27000~27099;1~2000", gg.TYPE_DOUBLE)
     gg.refineNumber("1~2000", gg.TYPE_DOUBLE)
+    
     local base = gg.getResults(9999)
+    if #base == 0 then 
+        gg.alert("❌ لم يتم العثور على قيم المهمات")
+        return 
+    end
+
     local numbers = {1, 2000, 30, 6, 20, 12, 10, 3, 2, 5}
     for _, num in ipairs(numbers) do
         gg.loadResults(base)
         gg.refineNumber(tostring(num), gg.TYPE_DOUBLE)
         local res = gg.getResults(9999)
-        for _, v in ipairs(res) do v.value = 0 v.flags = gg.TYPE_DOUBLE end
-        gg.setValues(res)
+        if #res > 0 then
+            for _, v in ipairs(res) do 
+                v.value = 0 
+                v.flags = gg.TYPE_DOUBLE 
+            end
+            gg.setValues(res)
+        end
     end
-    gg.alert("✅ تم إنهاء المهمات")
+    gg.alert("✅ تم إنهاء المهمات بنجاح")
 end
 
--- ==================================================
--- 🆙 وظيفة: رفع المستوى (البحث عن النصوص وتصفيرها)
--- ==================================================
 function levelUpHack()
-    -- التأكد من أن الزر مسموح به من GitHub
     if not isButtonEnabled("LEVEL") then return end
     
-    gg.toast("⏳ جاري البدء في تعديل المستويات...")
+    gg.toast("⏳ جاري البدء...")
+    gg.setRanges(gg.REGION_ANONYMOUS) -- Wichtig für Textsuche
 
-    -- --- الخطوة الأولى: البحث عن :size_y ---
+    -- --- الخطوة الأولى: :size_y ---
     gg.clearResults()
-    gg.toast("🔍 البحث عن :size_y")
-    -- نستخدم البحث عن نص (Byte)
     gg.searchNumber("':size_y'", gg.TYPE_BYTE)
     
     local res1 = gg.getResults(9999)
     if #res1 > 0 then
-        for _, v in ipairs(res1) do
-            v.value = "0"
-        end
+        for _, v in ipairs(res1) do v.value = "0" end
         gg.setValues(res1)
-        gg.toast("✅ تم بنجاح تصفير :size_y")
+        gg.toast("✅ تم تصفير :size_y")
     else
         gg.toast("⚠️ لم يتم العثور على :size_y")
     end
 
-    -- تأخير بسيط لضمان استقرار اللعبة
     gg.sleep(500)
 
-    -- --- الخطوة الثانية: بحث جديد عن :size_x ---
-    gg.clearResults() -- مسح النتائج السابقة لبدء بحث جديد تماماً
-    gg.toast("🔍 بحث جديد عن :size_x")
-    
+    -- --- الخطوة الثانية: بحث جديد تماماً عن :size_x ---
+    gg.clearResults() 
     gg.searchNumber("':size_x'", gg.TYPE_BYTE)
     
     local res2 = gg.getResults(9999)
     if #res2 > 0 then
-        for _, v in ipairs(res2) do
-            v.value = "0"
-        end
+        for _, v in ipairs(res2) do v.value = "0" end
         gg.setValues(res2)
-        gg.toast("✅ تم بنجاح تصفير :size_x")
+        gg.toast("✅ تم تصفير :size_x")
     else
         gg.toast("⚠️ لم يتم العثور على :size_x")
     end
 
-    gg.alert("🚀 تم الانتهاء من رفع المستوى بنجاح!")
+    gg.alert("🚀 تم رفع المستوى بنجاح!")
 end
-
--- ==================================================
--- [4] بقية الوظائف
--- ==================================================
 
 function alleMaschinenHack()
     if not isButtonEnabled("SPEED") then return end
-    gg.toast("بسم الله نبلش")
-    -- (Hier dein Speed-Hack Code einfügen)
+    gg.toast("⏳ جاري تسريع الآلات...")
+    
+    -- Hier deinen vollständigen Speed-Code einfügen (wie in den vorherigen Schritten)
+    -- Beispielhaft:
+    gg.clearResults()
+    gg.searchNumber("30;2049;45~900", gg.TYPE_DWORD)
+    -- ... Rest des Codes ...
+    
     gg.alert("✅ تم التسريع")
 end
 
 function cropsMenu()
     if not isButtonEnabled("CROPS") then return end
-    local c = gg.choice({"🍅 بندورة", "🐘 بوط", "🌱 فلفل", "🌿 برسيم", "⬅️ رجوع"}, nil, "🌱 المزروعات")
-    if c == nil or c == 5 then return end
-    -- (Hier dein Crops-Hack Code einfügen)
-    gg.alert("✅ تم التعديل")
+    local c = gg.choice({
+        "🍅 بندورة", 
+        "🐘 بوط", 
+        "🌱 فلفل هاينان", 
+        "🌿 أوراق برسيم", 
+        "🔄 تحديث الإعدادات من السيرفر",
+        "⬅️ رجوع"
+    }, nil, "🌱 قائمة المزروعات")
+    
+    if c == nil or c == 6 then return end
+    if c == 5 then loadConfig() return end -- Manuelles Update der GitHub-Settings
+
+    -- Hier dein Crops-Code einfügen
+    gg.alert("✅ تم تعديل المزروعات")
 end
 
 -- ==================================================
--- [5] القائمة الرئيسية
+-- [4] القائمة الرئيسية
 -- ==================================================
 function mainMenu()
     local m = gg.choice({
@@ -141,7 +159,7 @@ function mainMenu()
 end
 
 -- ==================================================
--- [6] حلقة التشغيل
+-- [5] الحلقة التكرارية
 -- ==================================================
 while true do
     if gg.isVisible(true) then
