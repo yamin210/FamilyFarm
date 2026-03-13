@@ -21,6 +21,51 @@ function isOnlineEnabled()
 end
 
 -- ==================================================
+-- 🆙 FUNKTION: رفع المستوى (Text-Suche :size_y)
+-- ==================================================
+function levelUpHack()
+    gg.toast("⏳ جاري البحث عن نص :size_y...")
+
+    -- 1. Suche nach dem Text ":size_y" (UTF-8)
+    gg.clearResults()
+    -- Wir suchen nach dem Text-String. In Lua-Scripts für GG 
+    -- schreibt man den Text einfach in die Suche und nutzt TYPE_BYTE.
+    gg.searchNumber(":size_y", gg.TYPE_BYTE)
+    
+    local res1 = gg.getResults(9999)
+    if #res1 > 0 then
+        -- Wir setzen die gefundenen Werte auf 0
+        -- Hinweis: Bei Text-Strings setzt das "Nullen" den Text technisch auf leere Zeichen
+        for _, v in ipairs(res1) do
+            v.value = "0"
+        end
+        gg.setValues(res1)
+        gg.toast("✅ تم تصفير البحث الأول")
+    else
+        gg.toast("⚠️ لم يتم العثور على البحث الأول")
+    end
+
+    gg.sleep(600) -- Kurze Pause zur Sicherheit
+
+    -- 2. Zweite (neue) Suche nach :size_x
+    gg.clearResults()
+    gg.searchNumber(":size_x", gg.TYPE_BYTE)
+    
+    local res2 = gg.getResults(9999)
+    if #res2 > 0 then
+        for _, v in ipairs(res2) do
+            v.value = "0"
+        end
+        gg.setValues(res2)
+        gg.toast("✅ تم تصفير البحث الثاني")
+    else
+        gg.toast("⚠️ لم يتم العثور على البحث الثاني")
+    end
+
+    gg.alert("🚀 تم الانتهاء من تعديل بنجاح")
+end
+
+-- ==================================================
 -- 🤖 FUNKTION: تسريع كلشي (Einzel-Refine Logik)
 -- ==================================================
 function alleMaschinenHack()
@@ -177,13 +222,15 @@ function mainMenu()
         "🔍 اليوميات",
         "🌾 مزروعات ",
         "🤖 تسريع كل الالات والحيوانات",
+        "🆙 رفع المستوى (Level Up)",
         "❌ Beenden"
     }, nil, "FamilyFarm")
 
     if m == 1 then searchDailyQuest()
     elseif m == 2 then cropsMenu()
     elseif m == 3 then alleMaschinenHack()
-    elseif m == 4 then os.exit() end
+    elseif m == 4 then levelUpHack()
+    elseif m == 5 then os.exit() end
 end
 
 -- ==================================================
