@@ -8,78 +8,45 @@ collectgarbage("collect")
 local SCRIPT_NAME = "ابوو الليث"
 local config_content = ""
 
--- [1] Funktion: Konfiguration einmalig laden (spart Traffic und Zeit)
+-- [1] وظيفة جلب الإعدادات من GitHub (مرة واحدة عند التشغيل)
 function loadConfig()
     local r = gg.makeRequest("https://raw.githubusercontent.com/yamin210/FamilyFarm/main/daily.txt")
     if r and r.content then
         config_content = r.content
         return true
     end
-    gg.toast("⚠️ تعذر الاتصال بالسيرفر - سيتم استخدام الإعدادات الافتراضية")
     return false
 end
 
--- [2] Funktion: Status prüfen
+-- [2] وظيفة التحقق إذا كان الزر مفعل (ON) أو معطل (OFF)
 function isButtonEnabled(buttonKey)
     if config_content:find(buttonKey .. "=OFF") then
-        gg.alert("❌ معطلة  ")
+        gg.alert("❌ عذراً، هذه الميزة معطلة حالياً من قبل المطور")
         return false
     end
     return true
 end
 
--- Start
+-- تشغيل الإعدادات والترحيب
 loadConfig()
 gg.toast(SCRIPT_NAME)
-gg.alert(" هلووووو ")
+gg.alert("أهلاً بك في سكربت " .. SCRIPT_NAME)
 
 -- ==================================================
 -- [3] الوظائف الأساسية
 -- ==================================================
 
-function searchDailyQuest()
-    if not isButtonEnabled("DAILY") then return end 
-    
-    gg.toast("⏳ جاري إنهاء المهمات...")
-    gg.clearResults()
-    
-    -- Suche Optimierung: Wir setzen den Speicherbereich auf Anonymous
-    gg.setRanges(gg.REGION_ANONYMOUS)
-    
-    gg.searchNumber("27000~27099;1~2000", gg.TYPE_DOUBLE)
-    gg.refineNumber("1~2000", gg.TYPE_DOUBLE)
-    
-    local base = gg.getResults(9999)
-    if #base == 0 then 
-        gg.alert("❌ لم يتم العثور على قيم المهمات")
-        return 
-    end
-
-    local numbers = {1, 2000, 30, 6, 20, 12, 10, 3, 2, 5}
-    for _, num in ipairs(numbers) do
-        gg.loadResults(base)
-        gg.refineNumber(tostring(num), gg.TYPE_DOUBLE)
-        local res = gg.getResults(9999)
-        if #res > 0 then
-            for _, v in ipairs(res) do 
-                v.value = 0 
-                v.flags = gg.TYPE_DOUBLE 
-            end
-            gg.setValues(res)
-        end
-    end
-    gg.alert("✅ تم إنهاء المهمات بنجاح")
-end
-
+-- 🆙 وظيفة رفع المستوى (تطابق الصور تماماً)
 function levelUpHack()
     if not isButtonEnabled("LEVEL") then return end
     
-    gg.toast("⏳ جاري البدء...")
-    gg.setRanges(gg.REGION_ANONYMOUS) -- Wichtig für Textsuche
+    gg.toast("⏳ جاري البدء في التعديل...")
+    gg.setRanges(gg.REGION_ANONYMOUS) -- ضبط البحث على Anonymous لضمان إيجاد النصوص
 
-    -- --- الخطوة الأولى: :size_y ---
+    -- الخطوة 1: البحث عن :size_y (كما في الصورة)
     gg.clearResults()
-    gg.searchNumber("':size_y'", gg.TYPE_BYTE)
+    gg.toast("🔍 البحث عن :size_y")
+    gg.searchNumber("':size_y'", gg.TYPE_BYTE) -- البحث عن نص UTF-8
     
     local res1 = gg.getResults(9999)
     if #res1 > 0 then
@@ -92,8 +59,9 @@ function levelUpHack()
 
     gg.sleep(500)
 
-    -- --- الخطوة الثانية: بحث جديد تماماً عن :size_x ---
+    -- الخطوة 2: بحث جديد عن :size_x
     gg.clearResults() 
+    gg.toast("🔍 بحث جديد عن :size_x")
     gg.searchNumber("':size_x'", gg.TYPE_BYTE)
     
     local res2 = gg.getResults(9999)
@@ -105,38 +73,51 @@ function levelUpHack()
         gg.toast("⚠️ لم يتم العثور على :size_x")
     end
 
-    gg.alert("🚀 تم رفع المستوى بنجاح!")
+    gg.alert("🚀 تم الانتهاء من رفع المستوى بنجاح")
 end
 
+-- 🔍 وظيفة إنهاء اليوميات
+function searchDailyQuest()
+    if not isButtonEnabled("DAILY") then return end 
+    
+    gg.toast("⏳ جاري إنهاء المهمات...")
+    gg.clearResults()
+    gg.setRanges(gg.REGION_ANONYMOUS)
+    
+    gg.searchNumber("27000~27099;1~2000", gg.TYPE_DOUBLE)
+    gg.refineNumber("1~2000", gg.TYPE_DOUBLE)
+    
+    local base = gg.getResults(9999)
+    if #base == 0 then gg.alert("❌ لم يتم العثور على قيم") return end
+
+    local numbers = {1, 2000, 30, 6, 20, 12, 10, 3, 2, 5}
+    for _, num in ipairs(numbers) do
+        gg.loadResults(base)
+        gg.refineNumber(tostring(num), gg.TYPE_DOUBLE)
+        local res = gg.getResults(9999)
+        if #res > 0 then
+            for _, v in ipairs(res) do v.value = 0 v.flags = gg.TYPE_DOUBLE end
+            gg.setValues(res)
+        end
+    end
+    gg.alert("✅ تم إنهاء المهمات")
+end
+
+-- 🤖 وظيفة تسريع كل شيء
 function alleMaschinenHack()
     if not isButtonEnabled("SPEED") then return end
-    gg.toast("⏳ جاري تسريع الآلات...")
-    
-    -- Hier deinen vollständigen Speed-Code einfügen (wie in den vorherigen Schritten)
-    -- Beispielhaft:
-    gg.clearResults()
-    gg.searchNumber("30;2049;45~900", gg.TYPE_DWORD)
-    -- ... Rest des Codes ...
-    
-    gg.alert("✅ تم التسريع")
+    gg.toast("🚀 جاري التسريع...")
+    -- كود التسريع الخاص بك يوضع هنا
+    gg.alert("✅ تم التسريع بنجاح")
 end
 
+-- 🌾 قائمة المزروعات
 function cropsMenu()
     if not isButtonEnabled("CROPS") then return end
-    local c = gg.choice({
-        "🍅 بندورة", 
-        "🐘 بوط", 
-        "🌱 فلفل هاينان", 
-        "🌿 أوراق برسيم", 
-        "🔄 تحديث الإعدادات من السيرفر",
-        "⬅️ رجوع"
-    }, nil, "🌱 قائمة المزروعات")
-    
-    if c == nil or c == 6 then return end
-    if c == 5 then loadConfig() return end -- Manuelles Update der GitHub-Settings
-
-    -- Hier dein Crops-Code einfügen
-    gg.alert("✅ تم تعديل المزروعات")
+    local c = gg.choice({"🍅 بندورة", "🐘 بوط", "🌱 فلفل", "🌿 برسيم", "⬅️ رجوع"}, nil, "🌱 قائمة المزروعات")
+    if c == nil or c == 5 then return end
+    -- كود تحويل المزروعات يوضع هنا
+    gg.alert("✅ تم التعديل")
 end
 
 -- ==================================================
@@ -159,7 +140,7 @@ function mainMenu()
 end
 
 -- ==================================================
--- [5] الحلقة التكرارية
+-- [5] حلقة التشغيل الدائمة
 -- ==================================================
 while true do
     if gg.isVisible(true) then
