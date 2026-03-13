@@ -196,7 +196,7 @@ function cropsMenu()
         "🐘 بوط", 
         "🌱 فلفل هاينان", 
         "🌿 اوراق برسيم الاربعة", 
-        "⬅️ Zurück"
+        "⬅️ رجوع"
     }, nil, "مزروعات متنوعة")
 
     if c == nil or c == 5 then return end
