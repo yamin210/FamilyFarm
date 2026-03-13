@@ -21,14 +21,14 @@ end
 function isButtonEnabled(buttonKey)
     local config = getRemoteConfig()
     if config:find(buttonKey .. "=OFF") then
-        gg.alert("❌ عذراً، ميزة (" .. buttonKey .. ") معطلة حالياً من قبل المطور")
+        gg.alert("❌  معطلة حاليا")
         return false
     end
     return true
 end
 
 gg.toast(SCRIPT_NAME)
-gg.alert("أهلاً بك في سكربت " .. SCRIPT_NAME)
+gg.alert("هلووووو")
 
 -- ==================================================
 -- [3] الوظائف الأساسية (تعمل الآن من أول ضغطة)
