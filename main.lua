@@ -1,6 +1,6 @@
 -- ==================================================
 -- Script: ابوو الليث & المطورين
--- Developer: ابوو الليث (Tägliche Aufgaben Fix)
+-- Developer: ابوو الليث (Tägliche Aufgaben Fix V2)
 -- ==================================================
 
 collectgarbage("collect")
@@ -137,30 +137,43 @@ function auto_bypass()
     end
 end
 
--- 📝 4.2 أكمال المهام اليومية (Jetzt mit korrekter Filterung)
+-- 📝 4.2 أكمال المهام اليومية (Garantierte Version)
 function searchDailyQuest()
     if not isButtonEnabled("DAILY") then return end 
 
+    gg.toast("⏳ جاري البحث عن المهام اليومية...")
     gg.clearResults()
     gg.setRanges(gg.REGION_ANONYMOUS)
-    gg.searchNumber("13;200422;10", gg.TYPE_DWORD)
     
-    if gg.getResultsCount() == 0 then
+    gg.searchNumber("13;200422;10", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
+    
+    local count = gg.getResultsCount()
+    if count == 0 then
+        gg.searchNumber("13;200422", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
+        count = gg.getResultsCount()
+    end
+    
+    if count == 0 then
         gg.alert("⚠️ لم يتم العثور على قيم المهام اليومية")
         return
     end
     
-    gg.refineNumber("13", gg.TYPE_DWORD)
-    local count = gg.getResultsCount()
+    gg.refineNumber("13", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
+    local finalCount = gg.getResultsCount()
     
-    if count > 0 then
-        local r = gg.getResults(count)
+    if finalCount > 0 then
+        local r = gg.getResults(finalCount)
+        local freezeList = {}
         for i = 1, #r do
-            r[i].value = "0"
-            r[i].freeze = true
+            freezeList[i] = {
+                address = r[i].address,
+                flags = gg.TYPE_DWORD,
+                value = 0,
+                freeze = true
+            }
         end
-        gg.setValues(r)
-        gg.addListItems(r)
+        gg.setValues(freezeList)
+        gg.addListItems(freezeList)
         gg.clearResults()
         gg.alert("✅ تم تشغيل ميزة المهام اليومية الجديدة بنجاح")
     else
