@@ -1,6 +1,6 @@
 -- ==================================================
 -- Script: ابوو الليث & المطورين
--- Developer: ابوو الليث (Kombiniert & Final Repariert)
+-- Developer: ابوو الليث (Neue tägliche Aufgaben)
 -- ==================================================
 
 collectgarbage("collect")
@@ -42,7 +42,7 @@ gg.toast(SCRIPT_NAME)
 gg.alert("هلوووووو")
 
 -- ==================================================
--- [3] Hilfsfunktionen für Text-Schreiben im Speicher (Original-Logik)
+-- [3] Hilfsfunktionen für Text-Schreiben im Speicher
 -- ==================================================
 local function CopyFile(playername, editname)
     local t = gg.getResults(gg.getResultsCount())
@@ -124,7 +124,6 @@ function auto_bypass()
         
         if found > 0 and not patched_once then
             gg.processPause()
-            -- Ruft jetzt korrekt die Bytes-Schreibmethode auf
             local ok, count = UpdatePass(CONFIG.OLD_NAME, CONFIG.NEW_NAME)
             gg.processResume()
             
@@ -138,31 +137,29 @@ function auto_bypass()
     end
 end
 
--- 🔍 4.2 إنهاء اليوميات
+-- 📝 4.2 أكمال المهام اليومية (Neue Funktion aus dem zweiten Skript)
 function searchDailyQuest()
     if not isButtonEnabled("DAILY") then return end 
-    
-    gg.toast("⏳ جاري إنهاء المهمات...")
-    gg.setVisible(false)
+
     gg.clearResults()
     gg.setRanges(gg.REGION_ANONYMOUS)
-    gg.searchNumber("27000~27099;1.0~2000", gg.TYPE_DOUBLE)
+    gg.searchNumber("13;200422;10", gg.TYPE_DWORD)
     
-    local r = gg.getResults(100000)
-    local ref = {1, 2, 3, 5, 6, 10, 12, 20, 30, 100, 250, 2000}
-    
-    for _, v in ipairs(ref) do
-        gg.loadResults(r)
-        gg.refineNumber(tostring(v), gg.TYPE_DOUBLE)
-        local res = gg.getResults(100000)
-        for _, item in ipairs(res) do 
-            item.value = 0 
-            item.flags = gg.TYPE_DOUBLE 
-        end
-        gg.setValues(res)
+    if gg.getResultsCount() == 0 then
+        gg.alert("⚠️ لم يتم العثور على قيم المهام اليومية")
+        return
     end
+    
+    local r = gg.getResults(gg.getResultsCount())
+    for i = 1, #r do
+        r[i].value = "0"
+        r[i].freeze = true
+    end
+    
+    gg.setValues(r)
+    gg.addListItems(r)
     gg.clearResults()
-    gg.alert("✅ تم إنهاء وفتح جميع صناديق المهمات اليومية")
+    gg.alert("✅ تم تشغيل ميزة المهام اليومية الجديدة بنجاح")
 end
 
 -- 💰 4.3 شراء الدنانير
@@ -189,7 +186,7 @@ function buyDinars()
             gg.toast("👉 محاولة " .. i)
             gg.sleep(w[1] * 1000)
         end
-        gg.alert("✅ اكتmel")
+        gg.alert("✅ اكتمل")
     end
     gg.clearResults()
 end
