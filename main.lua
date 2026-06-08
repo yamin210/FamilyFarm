@@ -1,6 +1,6 @@
 -- ==================================================
 -- Script: ابوو الليث & المطورين
--- Developer: ابوو الليث (Neue tägliche Aufgaben)
+-- Developer: ابوو الليث (Tägliche Aufgaben Fix)
 -- ==================================================
 
 collectgarbage("collect")
@@ -137,7 +137,7 @@ function auto_bypass()
     end
 end
 
--- 📝 4.2 أكمال المهام اليومية (Neue Funktion aus dem zweiten Skript)
+-- 📝 4.2 أكمال المهام اليومية (Jetzt mit korrekter Filterung)
 function searchDailyQuest()
     if not isButtonEnabled("DAILY") then return end 
 
@@ -150,16 +150,22 @@ function searchDailyQuest()
         return
     end
     
-    local r = gg.getResults(gg.getResultsCount())
-    for i = 1, #r do
-        r[i].value = "0"
-        r[i].freeze = true
-    end
+    gg.refineNumber("13", gg.TYPE_DWORD)
+    local count = gg.getResultsCount()
     
-    gg.setValues(r)
-    gg.addListItems(r)
-    gg.clearResults()
-    gg.alert("✅ تم تشغيل ميزة المهام اليومية الجديدة بنجاح")
+    if count > 0 then
+        local r = gg.getResults(count)
+        for i = 1, #r do
+            r[i].value = "0"
+            r[i].freeze = true
+        end
+        gg.setValues(r)
+        gg.addListItems(r)
+        gg.clearResults()
+        gg.alert("✅ تم تشغيل ميزة المهام اليومية الجديدة بنجاح")
+    else
+        gg.alert("⚠️ فشل في تصفية القيم")
+    end
 end
 
 -- 💰 4.3 شراء الدنانير
