@@ -1,6 +1,6 @@
 -- ==================================================
 -- Script: ابوو الليث & المطورين
--- Developer: ابوو الليث (Kombiniert & Optimiert)
+-- Developer: ابوو الليث (Kombiniert & Repariert)
 -- ==================================================
 
 collectgarbage("collect")
@@ -42,10 +42,72 @@ gg.toast(SCRIPT_NAME)
 gg.alert("هلوووووو")
 
 -- ==================================================
--- [3] الوظائف الأساسية (من السكربت الأول والثاني)
+-- [3] Hilfsfunktionen für Text-Schreiben im Speicher
+-- ==================================================
+local function CopyFile(playername, editname)
+    local t = gg.getResults(gg.getResultsCount())
+    local replaceString = {}
+    local stringSize = {}
+    local str = {}
+    gg.clearResults()
+    
+    for i = 1, #editname do 
+        str[i] = string.sub(editname, i, i) 
+    end
+    
+    for i = 1, #t do
+        stringSize[#stringSize + 1] = {
+            address = t[i].address - 0x4,
+            flags = gg.TYPE_WORD
+        }
+        for charCount = 1, #editname do
+            replaceString[#replaceString + 1] = {
+                address = t[i].address,
+                flags = gg.TYPE_WORD,
+                value = string.byte(str[charCount])
+            }
+            t[i].address = t[i].address + 1
+        end
+    end
+    
+    stringSize = gg.getValues(stringSize)
+    for i, v in ipairs(stringSize) do
+        if v.value == #playername then 
+            v.value = #editname 
+        end
+    end
+    gg.setValues(stringSize)
+    gg.setValues(replaceString)
+end
+
+local function UpdatePass(oldName, newName)
+    gg.searchNumber(':' .. oldName)
+    local a = gg.getResults(gg.getResultsCount())
+    if #a == 0 then return false, 0 end
+    
+    local limited = {}
+    local limit = math.min(10000, #a)
+    for i = 1, limit do 
+        limited[i] = a[i] 
+    end
+    gg.loadResults(limited)
+    
+    local stringLength = #oldName
+    for i = 1, stringLength do
+        gg.refineNumber(':' .. string.sub(oldName, 1, stringLength))
+        stringLength = stringLength - 1
+    end
+    
+    local final_count = gg.getResultsCount()
+    CopyFile(oldName, newName)
+    return true, final_count
+end
+
+-- ==================================================
+-- [4] الوظائف الأساسية
 -- ==================================================
 
--- 🔥 3.1 تشغيل المعدلة (Bypass)
+-- 🔥 4.1 تشغيل المعدلة (Bypass)
 function auto_bypass()
     local startTime = os.time()
     local patched_once = false
@@ -56,27 +118,26 @@ function auto_bypass()
         
         gg.clearResults()
         gg.setRanges(gg.REGION_BAD | gg.REGION_CODE_APP | gg.REGION_CODE_SYS | gg.REGION_OTHER | gg.REGION_ASHMEM)
+        
         gg.searchNumber(':' .. CONFIG.OLD_NAME)
         local found = gg.getResultsCount()
         
         if found > 0 and not patched_once then
             gg.processPause()
-            -- Hier wird die UpdatePass-Logik vereinfacht ausgeführt
-            local a = gg.getResults(10000)
-            if #a > 0 then
-                for i = 1, #a do a[i].value = CONFIG.NEW_NAME end
-                gg.setValues(a)
+            local ok, count = UpdatePass(CONFIG.OLD_NAME, CONFIG.NEW_NAME)
+            gg.processResume()
+            
+            if ok and count > 0 then
                 patched_once = true
                 gg.alert("مع تحيات فريق المطورين 🚀 تم تسجيل الدخول بنجاح")
                 return true
             end
-            gg.processResume()
         end
         gg.sleep(CONFIG.SCAN_INTERVAL_MS)
     end
 end
 
--- 🔍 3.2 إنهاء اليوميات (Kombinierte Version für maximale Leistung)
+-- 🔍 4.2 إنهاء اليوميات
 function searchDailyQuest()
     if not isButtonEnabled("DAILY") then return end 
     
@@ -103,7 +164,7 @@ function searchDailyQuest()
     gg.alert("✅ تم إنهاء وفتح جميع صناديق المهمات اليومية")
 end
 
--- 💰 3.3 شراء الدنانير
+-- 💰 4.3 شراء الدنانير
 function buyDinars()
     gg.alert("💰 جلب 86 دينار")
     local w = gg.prompt({"وقت الانتظار:"}, {30}, {"number"})
@@ -132,19 +193,19 @@ function buyDinars()
     gg.clearResults()
 end
 
--- 🎲 3.4 تفعيل الحظ
+-- 🎲 4.4 تفعيل الحظ
 function luckOn()
     gg.unrandomizer(1, 0, 1.0, 0.0)
     gg.alert("🎲 تم تفعيل الحظ")
 end
 
--- 💔 3.5 إلغاء الحظ
+-- 💔 4.5 إلغاء الحظ
 function luckOff()
     gg.unrandomizer(nil, nil, nil, nil)
     gg.alert("💔 تم إلغاء الحظ")
 end
 
--- 🆙 3.6 رفع المستوى
+-- 🆙 4.6 رفع المستوى
 function levelUpHack()
     if not isButtonEnabled("LEVEL") then return end
     
@@ -171,7 +232,7 @@ function levelUpHack()
     gg.alert("🚀 تم رفع المستوى بنجاح")
 end
 
--- 🤖 3.7 تسريع كل شيء
+-- 🤖 4.7 تسريع كل شيء
 function alleMaschinenHack()
     if not isButtonEnabled("SPEED") then return end
     
@@ -192,7 +253,7 @@ function alleMaschinenHack()
     gg.alert("✅ تم التسريع بنجاح")
 end
 
--- 🌾 3.8 قائمة المزروعات
+-- 🌾 4.8 قائمة المزروعات
 function cropsMenu()
     if not isButtonEnabled("CROPS") then return end
     
@@ -219,15 +280,15 @@ function cropsMenu()
 end
 
 -- ==================================================
--- [4] القائمة الرئيسية (Kombiniertes Menü)
+-- [5] القائمة الرئيسية
 -- ==================================================
 function mainMenu()
     local m = gg.choice({
-        "🔥 تشغيل المعدلة",      -- Neu aus Script 2
-        "📝 أكمال المهام اليومية", -- Zusammengefasst
-        "💰 شراء الدنانير",      -- Neu aus Script 2
-        "🎲 تفعيل الحظ",        -- Neu aus Script 2
-        "💔 إلغاء الحظ",        -- Neu aus Script 2
+        "🔥 تشغيل المعدلة",      
+        "📝 أكمال المهام اليومية", 
+        "💰 شراء الدنانير",      
+        "🎲 تفعيل الحظ",        
+        "💔 إلغاء الحظ",        
         "🌾 قائمة المزروعات",
         "🤖 تسريع كل شيء",
         "🆙 رفع المستوى",
@@ -248,7 +309,7 @@ function mainMenu()
 end
 
 -- ==================================================
--- [5] الحلقة الدائمة
+-- [6] الحلقة الدائمة
 -- ==================================================
 while true do
     if gg.isVisible(true) then
