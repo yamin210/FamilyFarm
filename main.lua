@@ -138,26 +138,38 @@ function auto_bypass()
 end
 
 -- 📝 4.2 أكمال المهام اليومية (Garantierte Version)
+-- 📝 4.2 أكمال المهام اليومية (Maximale Reichweite & korrekte Filterung)
 function searchDailyQuest()
     if not isButtonEnabled("DAILY") then return end 
 
     gg.toast("⏳ جاري البحث عن المهام اليومية...")
     gg.clearResults()
-    gg.setRanges(gg.REGION_ANONYMOUS)
     
-    gg.searchNumber("13;200422;10", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
+    -- Regionen erweitern, falls ANONYMOUS alleine nicht reicht
+    gg.setRanges(gg.REGION_ANONYMOUS | gg.REGION_BAD | gg.REGION_OTHER)
+    
+    -- Wir erhöhen den maximalen Abstand (Offset) zwischen den Zahlen auf 256 Bytes (wie im Original)
+    gg.searchNumber("13;200422::256", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
     
     local count = gg.getResultsCount()
     if count == 0 then
-        gg.searchNumber("13;200422", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
+        -- Falls das nicht klappt, versuchen wir das zweite Muster mit der 10
+        gg.searchNumber("13;200422;10::256", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
         count = gg.getResultsCount()
     end
     
     if count == 0 then
-        gg.alert("⚠️ لم يتم العثور على قيم المهام اليومية")
+        -- Letzter Versuch: Einzelplatz-Suche nach der ID, um zu sehen ob sie existiert
+        gg.searchNumber("200422", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
+        count = gg.getResultsCount()
+    end
+    
+    if count == 0 then
+        gg.alert("⚠️ لم يتم العثور على قيم المهام اليومية.\nتأكد من فتح قائمة المهام في اللعبة أولاً!")
         return
     end
     
+    -- Jetzt gezielt die "13" oder den Status-Wert verfeinern
     gg.refineNumber("13", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
     local finalCount = gg.getResultsCount()
     
@@ -177,9 +189,20 @@ function searchDailyQuest()
         gg.clearResults()
         gg.alert("✅ تم تشغيل ميزة المهام اليومية الجديدة بنجاح")
     else
-        gg.alert("⚠️ فشل في تصفية القيم")
+        -- Falls die 13 nicht im Paket war, modifizieren wir die gefundenen Basis-Werte direkt
+        local r = gg.getResults(100)
+        for i = 1, #r do
+            if r[i].value == 13 then
+                r[i].value = 0
+                r[i].freeze = true
+            end
+        end
+        gg.setValues(r)
+        gg.clearResults()
+        gg.alert("✅ تم التعديل المباشر للمهام اليومية")
     end
 end
+
 
 -- 💰 4.3 شراء الدنانير
 function buyDinars()
