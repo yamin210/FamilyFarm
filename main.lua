@@ -1,5 +1,5 @@
 -- ==================================================
--- Script: ابوو الليث & المطورين
+-- Script: ابوو الليث
 -- Developer: ابوو الليث (Tägliche Aufgaben Fix V2)
 -- ==================================================
 
@@ -129,7 +129,7 @@ function auto_bypass()
             
             if ok and count > 0 then
                 patched_once = true
-                gg.alert("مع تحيات فريق المطورين 🚀 تم تسجيل الدخول بنجاح")
+                gg.alert("مع تحيات ابوو الليث تم تسجيل الدخول بنجاح")
                 return true
             end
         end
